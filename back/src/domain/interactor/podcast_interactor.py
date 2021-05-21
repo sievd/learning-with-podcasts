@@ -1,4 +1,4 @@
-from src.lib.errors import NotFoundError
+from src.lib.errors import NotFoundError, NotAuthorizedError
 
 
 class PodcastInteractor:
@@ -7,6 +7,7 @@ class PodcastInteractor:
         self.events_repository = events_repository
         self.user_repository = user_repository
 
+    # Platform.
     def get_all_podcasts_by_category(self, category_id):
         category = self.podcast_repository.get_category_by_id(category_id)
         if not category:
@@ -21,14 +22,14 @@ class PodcastInteractor:
             return self.get_podcast_by_popularity()
 
     def get_podcast_by_popularity(self):
-        listenings_by_podcast = self.get_all_listenings_by_podcast()
+        listenings_by_podcast = self._get_all_listenings_by_podcast()
         listenings_by_podcast_desc = sorted(
             listenings_by_podcast, key=lambda x: -x[1])
         podcasts_by_popularity_desc = [self.podcast_repository.get_podcast_by_id(tuple[0])
                                        for tuple in listenings_by_podcast_desc]
         return podcasts_by_popularity_desc
 
-    def get_all_listenings_by_podcast(self):
+    def _get_all_listenings_by_podcast(self):
         all_listening_events = self.events_repository.get_all_events(
             type="listen")
         d = {}
@@ -39,8 +40,52 @@ class PodcastInteractor:
         listenings = [(key, value) for key, value in d.items()]
         return listenings
 
+    # Users.
     def get_user_library(self):
+        self._validate_auth()
         current_user = self.user_repository.get_current_user()
         user_library = self.podcast_repository.get_library_by_user_id(
             current_user.id)
         return user_library
+
+    def get_latests_listened_podcasts_in_the_library(self):
+        self._validate_auth()
+        current_user = self.user_repository.get_current_user()
+        listened_podcasts_ids_by_date = self._get_all_listened_podcasts_by_user(
+            current_user.id)
+        latest_listened_podcasts_ids_desc = self._sort_podcasts_ids_by_listening_timestamp(
+            listened_podcasts_ids_by_date)
+        latests_listened_podcasts_desc = [self.podcast_repository.get_podcast_by_id(
+            podcast_id) for podcast_id in latest_listened_podcasts_ids_desc]
+        return latests_listened_podcasts_desc
+
+    def _get_all_listened_podcasts_by_user(self, user_id):
+        user_events = self.events_repository.get_events_by_user_id(
+            user_id, "listen")
+        listened_eps_by_date = [(event.data["episode_id"], event.timestamp)
+                                for event in user_events]
+        listened_podcasts_by_date = [(self.podcast_repository.get_podcast_id_of(
+            tuple[0]), tuple[1]) for tuple in listened_eps_by_date]
+        return listened_podcasts_by_date
+
+    def _sort_podcasts_ids_by_listening_timestamp(self, all_listenings):
+        d = {}
+        for podcast_id, timestamp in all_listenings:
+            current_value = d.get(podcast_id, [])
+            current_value.append(timestamp)
+            d[podcast_id] = current_value
+        for key in d.keys():
+            d[key] = sorted(d[key])
+        all_podcasts_ids_and_timestamps = d.items()
+        all_podcasts_ids_and_timestamps_desc = sorted(
+            all_podcasts_ids_and_timestamps, key=lambda x: x[1][-1], reverse=True)
+        all_podcasts_ids_order_desc = [tuple[0]
+                                       for tuple in all_podcasts_ids_and_timestamps_desc]
+        return all_podcasts_ids_order_desc
+
+    # Validations.
+    def _validate_auth(self):
+        current_user = self.user_repository.get_current_user()
+        if current_user is None:
+            raise NotAuthorizedError(
+                {"msg": "This operation is not authorized. Please, log in."})
