@@ -17,6 +17,15 @@ class PodcastInteractor:
             category_id)
         return all_podcasts
 
+    def get_all_episodes_by_podcast_id(self, podcast_id):
+        podcast = self.podcast_repository.get_podcast_by_id(podcast_id)
+        if podcast is None:
+            raise NotFoundError(
+                {"msg": f"Podcast with id '{podcast_id}' not found."})
+        all_episodes = self.podcast_repository.get_all_episodes_by_podcast_id(
+            podcast_id)
+        return all_episodes
+
     def get_all_podcasts(self, by):
         if by == "popularity":
             return self.get_podcast_by_popularity()
@@ -59,11 +68,22 @@ class PodcastInteractor:
             podcast_id) for podcast_id in latest_listened_podcasts_ids_desc]
         return latests_listened_podcasts_desc
 
-    def _get_all_listened_podcasts_by_user(self, user_id):
+    # def get_novelties_in_the_library(self):
+    #     library = self.get_user_library()
+    #     current_user = self.user_repository.get_current_user()
+    #     listened_eps_by_date = self._get_all_listened_episodes_by_user(
+    #         current_user.id)
+        # listened_podcasts_ids_by_date = self._get_all_listened_podcasts_by_user()
+
+    def _get_all_listened_episodes_by_user(self, user_id):
         user_events = self.events_repository.get_events_by_user_id(
             user_id, "listen")
         listened_eps_by_date = [(event.data["episode_id"], event.timestamp)
                                 for event in user_events]
+        return listened_eps_by_date
+
+    def _get_all_listened_podcasts_by_user(self, user_id):
+        listened_eps_by_date = self._get_all_listened_episodes_by_user(user_id)
         listened_podcasts_by_date = [(self.podcast_repository.get_podcast_id_of(
             tuple[0]), tuple[1]) for tuple in listened_eps_by_date]
         return listened_podcasts_by_date

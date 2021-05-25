@@ -1,6 +1,7 @@
 from src.lib.sqlite_based_repository import SqliteBasedRepository
 from src.domain.model.podcast import Podcast
 from src.domain.model.podcast_category import PodcastCategory
+from src.domain.model.podcast_episode import PodcastEpisode
 
 
 class PodcastRepository(SqliteBasedRepository):
@@ -60,3 +61,12 @@ class PodcastRepository(SqliteBasedRepository):
                WHERE user_id=?;""", (user_id,))
         data = cursor.fetchall()
         return [self.get_podcast_by_id(row["podcast_id"]) for row in data]
+
+    def get_all_episodes_by_podcast_id(self, podcast_id):
+        cursor = self._conn().cursor()
+        cursor.execute(
+            """SELECT episode_id, podcast_id, release_date
+               FROM podcasts_episodes
+               WHERE podcast_id=?;""", (podcast_id,))
+        data = cursor.fetchall()
+        return [PodcastEpisode(*record) for record in data]

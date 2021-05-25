@@ -49,6 +49,7 @@ def database():
         CREATE TABLE podcasts_episodes (
             episode_id varchar primary key,
             podcast_id varchar,
+            release_date varchar,
             FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id")
         );
 
