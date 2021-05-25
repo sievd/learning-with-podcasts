@@ -4,6 +4,10 @@ export const routes = [
     component: () => import("@/views/Home/HomePage.vue"),
   },
   {
+    path: "/explore",
+    component: () => import("@/views/Explore/ExplorePage.vue"),
+  },
+  {
     path: "/about",
     component: () => import("@/views/About/AboutPage.vue"),
   },
