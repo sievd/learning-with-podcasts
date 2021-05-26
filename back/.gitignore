@@ -1,6 +1,8 @@
 __pycache__
 .pytest_cache
+data/pictures/*
 data/database.sqlite
+data/podcasts/*
 config.py
 .vscode
 !.vscode/tasks.json
