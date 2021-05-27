@@ -9,7 +9,7 @@
       <CardsSummaryGrid
         :items="popularPodcasts"
         :maxItems="maxItems"
-        baseLink="/"
+        baseLink="/podcasts"
         viewMoreLink="/"
       ></CardsSummaryGrid>
     </section>

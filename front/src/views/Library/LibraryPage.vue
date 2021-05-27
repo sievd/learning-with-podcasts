@@ -5,7 +5,7 @@
       <CardsSummaryGrid
         :items="libraryPodcasts"
         :maxItems="libraryPodcasts.length"
-        baseLink="/"
+        baseLink="/podcasts"
         viewMoreLink="/"
       ></CardsSummaryGrid>
     </section>
@@ -32,6 +32,9 @@ export default {
     },
   },
   async created() {
+    if (!this.$auth.isUserLogged) {
+      this.$router.push("/login");
+    }
     await this.getLibraryPodcasts();
   },
 };

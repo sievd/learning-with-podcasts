@@ -74,32 +74,32 @@ INSERT INTO authors (id, name, bio, image_filename) values
     ("test-author-17", "Test Author 17", "Bio of the test author 17", "test_author_17.jpeg");
 
 DELETE FROM podcasts_episodes;
-INSERT INTO podcasts_episodes (episode_id, podcast_id, author_id, release_date) values
-    ("test-episode-1", "test-podcast-1", "test-author-1", "2021-05-18"),
-    ("test-episode-2", "test-podcast-2", "test-author-2", "2021-05-19"),
-    ("test-episode-3", "test-podcast-3", "test-author-3", "2021-05-20"),
-    ("test-episode-4", "test-podcast-4", "test-author-4", "2021-05-21"),
-    ("test-episode-5", "test-podcast-1", "test-author-1", "2021-05-22"),
-    ("test-episode-6", "test-podcast-2", "test-author-2", "2021-05-23"),
-    ("test-episode-7", "test-podcast-3", "test-author-3", "2021-05-24"),
-    ("test-episode-8", "test-podcast-4", "test-author-4", "2021-05-25"),
-    ("test-episode-9", "test-podcast-5", "test-author-5", "2021-05-26"),
-    ("test-episode-10", "test-podcast-6", "test-author-6", "2021-05-27"),
-    ("test-episode-11", "test-podcast-7", "test-author-7", "2021-05-28"),
-    ("test-episode-12", "test-podcast-8", "test-author-8", "2021-05-29"),
-    ("test-episode-13", "test-podcast-8", "test-author-8", "2021-05-30"),
-    ("test-episode-14", "test-podcast-8", "test-author-8", "2021-05-31"),
-    ("test-episode-15", "test-podcast-9", "test-author-9", "2021-06-01"),
-    ("test-episode-16", "test-podcast-10", "test-author-10", "2021-06-02"),
-    ("test-episode-17", "test-podcast-11", "test-author-11", "2021-06-03"),
-    ("test-episode-18", "test-podcast-12", "test-author-12", "2021-06-04"),
-    ("test-episode-19", "test-podcast-13", "test-author-13", "2021-06-05"),
-    ("test-episode-20", "test-podcast-13", "test-author-13", "2021-06-06"),
-    ("test-episode-21", "test-podcast-13", "test-author-13", "2021-06-07"),
-    ("test-episode-22", "test-podcast-13", "test-author-13", "2021-06-08"),
-    ("test-episode-23", "test-podcast-14", "test-author-14", "2021-06-09"),
-    ("test-episode-24", "test-podcast-15", "test-author-15", "2021-06-10"),
-    ("test-episode-25", "test-podcast-16", "test-author-16", "2021-06-11");
+INSERT INTO podcasts_episodes (episode_id, title, podcast_id, author_id, release_date) values
+    ("test-episode-1", "Test title of test-episode-1", "test-podcast-1", "test-author-1", "2021-05-18"),
+    ("test-episode-2", "Test title of test-episode-2", "test-podcast-2", "test-author-2", "2021-05-19"),
+    ("test-episode-3", "Test title of test-episode-3", "test-podcast-3", "test-author-3", "2021-05-20"),
+    ("test-episode-4", "Test title of test-episode-4", "test-podcast-4", "test-author-4", "2021-05-21"),
+    ("test-episode-5", "Test title of test-episode-5", "test-podcast-1", "test-author-1", "2021-05-22"),
+    ("test-episode-6", "Test title of test-episode-6", "test-podcast-2", "test-author-2", "2021-05-23"),
+    ("test-episode-7", "Test title of test-episode-7", "test-podcast-3", "test-author-3", "2021-05-24"),
+    ("test-episode-8", "Test title of test-episode-8", "test-podcast-4", "test-author-4", "2021-05-25"),
+    ("test-episode-9", "Test title of test-episode-9", "test-podcast-5", "test-author-5", "2021-05-26"),
+    ("test-episode-10", "Test title of test-episode-10", "test-podcast-6", "test-author-6", "2021-05-27"),
+    ("test-episode-11", "Test title of test-episode-11", "test-podcast-7", "test-author-7", "2021-05-28"),
+    ("test-episode-12", "Test title of test-episode-12", "test-podcast-8", "test-author-8", "2021-05-29"),
+    ("test-episode-13", "Test title of test-episode-13", "test-podcast-8", "test-author-8", "2021-05-30"),
+    ("test-episode-14", "Test title of test-episode-14", "test-podcast-8", "test-author-8", "2021-05-31"),
+    ("test-episode-15", "Test title of test-episode-15", "test-podcast-9", "test-author-9", "2021-06-01"),
+    ("test-episode-16", "Test title of test-episode-16", "test-podcast-10", "test-author-10", "2021-06-02"),
+    ("test-episode-17", "Test title of test-episode-17", "test-podcast-11", "test-author-11", "2021-06-03"),
+    ("test-episode-18", "Test title of test-episode-18", "test-podcast-12", "test-author-12", "2021-06-04"),
+    ("test-episode-19", "Test title of test-episode-19", "test-podcast-13", "test-author-13", "2021-06-05"),
+    ("test-episode-20", "Test title of test-episode-20", "test-podcast-13", "test-author-13", "2021-06-06"),
+    ("test-episode-21", "Test title of test-episode-21", "test-podcast-13", "test-author-13", "2021-06-07"),
+    ("test-episode-22", "Test title of test-episode-22", "test-podcast-13", "test-author-13", "2021-06-08"),
+    ("test-episode-23", "Test title of test-episode-23", "test-podcast-14", "test-author-14", "2021-06-09"),
+    ("test-episode-24", "Test title of test-episode-24", "test-podcast-15", "test-author-15", "2021-06-10"),
+    ("test-episode-25", "Test title of test-episode-25", "test-podcast-16", "test-author-16", "2021-06-11");
 
 DELETE FROM user_libraries;
 INSERT INTO user_libraries (podcast_id, user_id) values

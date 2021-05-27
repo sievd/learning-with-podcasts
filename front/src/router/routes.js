@@ -31,8 +31,4 @@ export const routes = [
     path: "/login",
     component: () => import("@/views/Login/LoginPage.vue"),
   },
-  {
-    path: "/about",
-    component: () => import("@/views/About/AboutPage.vue"),
-  },
 ];
