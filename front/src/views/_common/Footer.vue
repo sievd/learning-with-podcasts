@@ -1,5 +1,5 @@
 <template>
-  <div id="header">
+  <div id="footer">
     <Nav />
   </div>
 </template>

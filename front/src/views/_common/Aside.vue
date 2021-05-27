@@ -35,10 +35,16 @@
           <span class="material-icons md-8">favorite</span
           ><span>Favourites</span>
         </li>
-        <li>
+        <li
+          @click="onLibraryPodcastsLinkClicked"
+          :class="[active == 'LibraryPodcasts' ? 'active' : '']"
+        >
           <span class="material-icons md-8">headset</span><span>Podcasts</span>
         </li>
-        <li>
+        <li
+          @click="onLibraryAuthorsLinkClicked"
+          :class="[active == 'LibraryAuthors' ? 'active' : '']"
+        >
           <span class="material-icons md-8">mic</span><span>Authors</span>
         </li>
       </ul>
@@ -63,26 +69,44 @@
 <script>
 export default {
   name: "Aside",
-  data() {
-    return {
-      active: "Home",
-    };
+  computed: {
+    active() {
+      const path = this.$route.path;
+      if (path.includes("explore")) {
+        return "Explore";
+      } else if (path.includes("library")) {
+        if (path.includes("podcasts")) {
+          return "LibraryPodcasts";
+        } else if (path.includes("authors")) {
+          return "LibraryAuthors";
+        } else {
+          return "";
+        }
+      } else if (path == "/") {
+        return "Home";
+      } else {
+        return "";
+      }
+    },
   },
   methods: {
     onAddPlaylistButtonClicked() {
       console.log("playlist added!");
     },
     onLogoClicked() {
-      this.active = "Home";
       this.$router.push("/");
     },
     onHomeLinkClicked() {
-      this.active = "Home";
-      this.$router.push("/home");
+      this.$router.push("/");
     },
     onExploreLinkClicked() {
-      this.active = "Explore";
       this.$router.push("/explore");
+    },
+    onLibraryPodcastsLinkClicked() {
+      this.$router.push("/library/podcasts");
+    },
+    onLibraryAuthorsLinkClicked() {
+      this.$router.push("/library/authors");
     },
   },
 };
@@ -94,7 +118,7 @@ aside {
   margin: 0;
   font-size: 0.55em;
   font-weight: 600;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 aside > section {
@@ -142,6 +166,10 @@ li span:first-child {
 
 span.material-icons {
   cursor: default;
+}
+
+span.material-icons:hover {
+  cursor: pointer;
 }
 
 li:hover {
