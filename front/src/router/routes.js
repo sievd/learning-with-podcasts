@@ -8,11 +8,31 @@ export const routes = [
     component: () => import("@/views/Explore/ExplorePage.vue"),
   },
   {
-    path: "/about",
-    component: () => import("@/views/About/AboutPage.vue"),
+    path: "/library",
+    component: () => import("@/views/Library/LibraryPage.vue"),
   },
   {
-    path: "/tasks",
-    component: () => import("@/views/TaskList/TaskListPage.vue"),
+    path: "/library/playlists",
+    component: () => import("@/views/Library/LibraryPage.vue"),
+  },
+  {
+    path: "/library/podcasts",
+    component: () => import("@/views/Library/LibraryPage.vue"),
+  },
+  {
+    path: "/library/authors",
+    component: () => import("@/views/Library/LibraryPage.vue"),
+  },
+  {
+    path: "/podcasts/:id",
+    component: () => import("@/views/PodcastDetails/PodcastDetailsPage.vue"),
+  },
+  {
+    path: "/login",
+    component: () => import("@/views/Login/LoginPage.vue"),
+  },
+  {
+    path: "/about",
+    component: () => import("@/views/About/AboutPage.vue"),
   },
 ];
