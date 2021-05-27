@@ -65,8 +65,21 @@ class PodcastRepository(SqliteBasedRepository):
     def get_all_episodes_by_podcast_id(self, podcast_id):
         cursor = self._conn().cursor()
         cursor.execute(
-            """SELECT episode_id, title, podcast_id, author_id, release_date
+            """SELECT episode_id, title, podcast_id, author_id, 
+                      release_date, audio_filename, transcript
                FROM podcasts_episodes
                WHERE podcast_id=?;""", (podcast_id,))
         data = cursor.fetchall()
         return [PodcastEpisode(*record) for record in data]
+
+    def get_episode_by_id(self, episode_id):
+        cursor = self._conn().cursor()
+        cursor.execute(
+            """SELECT episode_id, title, podcast_id, author_id, 
+                      release_date, audio_filename, transcript
+               FROM podcasts_episodes
+               WHERE episode_id=?
+               LIMIT 1;""", (episode_id,))
+        data = cursor.fetchone()
+        if data:
+            return PodcastEpisode(*data)

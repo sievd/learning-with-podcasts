@@ -51,6 +51,8 @@ CREATE TABLE podcasts_episodes (
     podcast_id varchar,
     author_id varchar,
     release_date varchar,
+    audio_filename varchar,
+    transcript varchar,
     FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id"),
     FOREIGN KEY ("author_id") REFERENCES authors("id")
 );

@@ -57,9 +57,12 @@ def database():
         DROP TABLE IF EXISTS podcasts_episodes;
         CREATE TABLE podcasts_episodes (
             episode_id varchar primary key,
+            title varchar,
             podcast_id varchar,
             author_id varchar,
             release_date varchar,
+            audio_filename varchar,
+            transcript varchar,
             FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id"),
             FOREIGN KEY ("author_id") REFERENCES authors("id")
         );

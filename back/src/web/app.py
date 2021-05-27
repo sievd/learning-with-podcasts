@@ -31,6 +31,16 @@ def picture_by_filename_get(filename):
         return "", 404
 
 
+@app.route("/api/static/audios/<filename>")
+def picture_by_filename_get(filename):
+    try:
+        return send_from_directory(
+            Path(config["root_path"]) / config["audios"], filename
+        )
+    except FileNotFoundError:
+        return "", 404
+
+
 @app.route("/")
 def home():
     return "magic ..."
@@ -79,3 +89,10 @@ def podcast_by_id_get(id):
 def podcast_episodes_by_id_get(id):
     episodes = podcast_interactor.get_all_episodes_by_podcast_id(id)
     return json_response(episodes), 200
+
+
+@app.route("/api/episodes/<id>", methods=["GET"])
+def episode_by_id_get(id):
+    episode = podcast_interactor.get_episode_by_id(id)
+    episode.audio = f"/api/static/audios/{episode.audio}"
+    return json_response(episode), 200

@@ -26,6 +26,13 @@ class PodcastInteractor:
             podcast_id)
         return all_episodes
 
+    def get_episode_by_id(self, episode_id):
+        episode = self.podcast_repository.get_episode_by_id(episode_id)
+        if episode is None:
+            raise NotFoundError(
+                {"msg": f"Episode with id '{episode_id}' not found."})
+        return episode
+
     def get_all_podcasts(self, by):
         if by == "popularity":
             return self.get_podcast_by_popularity()
