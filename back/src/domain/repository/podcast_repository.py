@@ -53,7 +53,7 @@ class PodcastRepository(SqliteBasedRepository):
             return PodcastCategory(*data)
         return None
 
-    def get_library_by_user_id(self, user_id):
+    def get_library_podcasts_by_user_id(self, user_id):
         cursor = self._conn().cursor()
         cursor.execute(
             """SELECT podcast_id

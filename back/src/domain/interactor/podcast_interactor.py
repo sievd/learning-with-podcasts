@@ -49,11 +49,18 @@ class PodcastInteractor:
         listenings = [(key, value) for key, value in d.items()]
         return listenings
 
+    def get_podcast_by_id(self, podcast_id):
+        podcast = self.podcast_repository.get_podcast_by_id(podcast_id)
+        if not podcast:
+            raise NotFoundError(
+                {"msg": f"Podcast with id '{podcast_id}' not found."})
+        return podcast
+
     # Users.
-    def get_user_library(self):
+    def get_all_podcast_in_the_library(self):
         self._validate_auth()
         current_user = self.user_repository.get_current_user()
-        user_library = self.podcast_repository.get_library_by_user_id(
+        user_library = self.podcast_repository.get_library_podcasts_by_user_id(
             current_user.id)
         return user_library
 

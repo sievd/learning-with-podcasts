@@ -4,25 +4,28 @@ from pathlib import Path
 
 from config import config
 
-from src.domain.interactor.task_interactor import TaskInteractor
-from src.domain.repository.task_repository import TaskRepository
+from src.domain.interactor.podcast_interactor import PodcastInteractor
+from src.domain.repository.podcast_repository import PodcastRepository
 from src.domain.interactor.user_interactor import UserInteractor
 from src.domain.repository.user_repository import UserRepository
+from src.domain.repository.events_repository import EventsRepository
 
 app = create_app(config)
 
-task_repository = TaskRepository(config)
-task_interactor = TaskInteractor(config, task_repository)
 user_repository = UserRepository(
     config, get_current_user_id=app.get_current_user_id)
 user_interactor = UserInteractor(config, user_repository)
+events_repository = EventsRepository(config)
+podcast_repository = PodcastRepository(config)
+podcast_interactor = PodcastInteractor(
+    config, podcast_repository, events_repository, user_repository)
 
 
-@app.route("/api/static/images/<filename>")
+@app.route("/api/static/pictures/<filename>")
 def picture_by_filename_get(filename):
     try:
         return send_from_directory(
-            Path(config["root_path"]) / config["images"], filename=filename
+            Path(config["root_path"]) / config["pictures"], filename
         )
     except FileNotFoundError:
         return "", 404
@@ -38,15 +41,35 @@ def auth_login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
     user = user_interactor.auth_user(username, password)
+    user.picture = f"/api/static/pictures/{user.picture}"
     access_token = create_access_token(identity=user.id)
     return json_response({"access_token": access_token, "user": user})
 
 
-# @app.route("/api/podcats", methods=["GET"])
-# def podcasts_get():
-#     query = request.args.get("q")
+@app.route("/api/users/<user_id>/podcasts", methods=["GET"])
+def user_podcasts_get(user_id):
+    status = request.args.get("status")
+    if status == "active":
+        all_podcasts = podcast_interactor.get_latests_listened_podcasts_in_the_library()
+    else:
+        all_podcasts = podcast_interactor.get_all_podcast_in_the_library()
+    for podcast in all_podcasts:
+        print(podcast)
+        podcast.image = f"/api/static/pictures/{podcast.image}"
+    return json_response(all_podcasts), 200
 
 
-# @app.route("/api/tasks", methods=["GET"])
-# def tasks_get():
-#     return json_response(task_interactor.get_all_tasks()), 200
+@app.route("/api/podcasts", methods=["GET"])
+def podcasts_get():
+    by = request.args.get("by")
+    popular_podcasts = podcast_interactor.get_all_podcasts(by=by)
+    for podcast in popular_podcasts:
+        podcast.image = f"/api/static/pictures/{podcast.image}"
+    return json_response(popular_podcasts), 200
+
+
+@app.route("/api/podcasts/<id>", methods=["GET"])
+def podcast_by_id_get(id):
+    podcast = podcast_interactor.get_podcast_by_id(id)
+    podcast.image = f"/api/static/pictures/{podcast.image}"
+    return json_response(podcast), 200

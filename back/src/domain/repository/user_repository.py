@@ -3,7 +3,7 @@ from src.lib.sqlite_based_repository import SqliteBasedRepository
 
 
 def create_user_from_record(record):
-    return User(**record)
+    return User(*record)
 
 
 class UserRepository(SqliteBasedRepository):
@@ -28,4 +28,4 @@ class UserRepository(SqliteBasedRepository):
         data = cursor.fetchone()
 
         if data is not None:
-            return create_user_from_record(data)
+            return User(*data)

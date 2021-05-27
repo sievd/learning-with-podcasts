@@ -5,3 +5,4 @@ class Podcast:
         self.title = title
         self.description = description
         self.category_id = category_id
+
