@@ -22,7 +22,8 @@ class PodcastRepository(SqliteBasedRepository):
     def get_podcast_by_id(self, podcast_id):
         cursor = self._conn().cursor()
         cursor.execute(
-            """SELECT podcast_id, image_filename, title, description, category_id
+            """SELECT podcast_id, image_filename, title, 
+                      description, category_id, lang_code
                FROM podcasts 
                WHERE podcast_id=? 
                LIMIT 1;""", (podcast_id,))
@@ -35,7 +36,8 @@ class PodcastRepository(SqliteBasedRepository):
     def get_all_podcasts_by_category(self, category_id):
         cursor = self._conn().cursor()
         cursor.execute(
-            """SELECT podcast_id, image_filename, title, description, category_id
+            """SELECT podcast_id, image_filename, title, 
+                      description, category_id, lang_code
                FROM podcasts
                WHERE category_id=?;""", (category_id,))
         data = cursor.fetchall()
@@ -44,7 +46,7 @@ class PodcastRepository(SqliteBasedRepository):
     def get_category_by_id(self, category_id):
         cursor = self._conn().cursor()
         cursor.execute(
-            """SELECT category_id, name, description
+            """SELECT category_id, name, description, image_filename
                FROM podcasts_categories
                WHERE category_id=?
                LIMIT 1;""", (category_id,))
@@ -83,3 +85,20 @@ class PodcastRepository(SqliteBasedRepository):
         data = cursor.fetchone()
         if data:
             return PodcastEpisode(*data)
+
+    def get_term_status(self, term, lang_code, user_id):
+        cursor = self._conn().cursor()
+        cursor.execute(
+            """SELECT status
+               FROM terms
+               WHERE term = :term
+                AND lang_code = :lang_code
+                AND user_id = :user_id
+               LIMIT 1;""", {
+                "term": term,
+                "lang_code": lang_code,
+                "user_id": user_id
+            })
+        data = cursor.fetchone()
+        if data:
+            return data["status"]

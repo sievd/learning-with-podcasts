@@ -32,7 +32,7 @@ def picture_by_filename_get(filename):
 
 
 @app.route("/api/static/audios/<filename>")
-def picture_by_filename_get(filename):
+def audio_by_filename_get(filename):
     try:
         return send_from_directory(
             Path(config["root_path"]) / config["audios"], filename
@@ -96,3 +96,9 @@ def episode_by_id_get(id):
     episode = podcast_interactor.get_episode_by_id(id)
     episode.audio = f"/api/static/audios/{episode.audio}"
     return json_response(episode), 200
+
+
+@app.route("/api/episodes/<id>/statuses", methods=["GET"])
+def statuses_by_episode_id_get(id):
+    statuses = podcast_interactor.get_terms_statuses_by_episode_id(id)
+    return json_response(statuses), 200

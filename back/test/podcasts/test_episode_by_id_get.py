@@ -65,7 +65,7 @@ def test_should_raise_NotFoundError_if_the_episode_doesnt_exist(database):
         ("test-category-3", "Test category 3", "Description of the category 3"),
         ("test-category-4", "Test category 4", "Description of the category 4");
 
-INSERT INTO podcasts_episodes (episode_id, podcast_id, author_id, release_date, audio_filename, transcript) values
+    INSERT INTO podcasts_episodes (episode_id, podcast_id, author_id, release_date, audio_filename, transcript) values
         ("test-episode-1", "test-podcast-1", "test-author-1", "2021-05-18", "test-audio-filename", "test-transcript"),
         ("test-episode-2", "test-podcast-2", "test-author-2", "2021-05-19", "test-audio-filename", "test-transcript"),
         ("test-episode-3", "test-podcast-3", "test-author-3", "2021-05-20", "test-audio-filename", "test-transcript"),

@@ -41,7 +41,9 @@ CREATE TABLE podcasts (
     title varchar, 
     description varchar,
     category_id varchar,
-    FOREIGN KEY ("category_id") REFERENCES podcasts_categories("category_id")
+    lang_code varchar,
+    FOREIGN KEY ("category_id") REFERENCES podcasts_categories("category_id"),
+    FOREIGN KEY ("lang_code") REFERENCES languages("lang_code")
 );
 
 DROP TABLE IF EXISTS podcasts_episodes;
@@ -64,4 +66,21 @@ CREATE TABLE user_libraries (
     FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id"),
     FOREIGN KEY ("user_id") REFERENCES users("user_id")
 );
+
+DROP TABLE IF EXISTS languages;
+CREATE TABLE languages (
+    lang_code varchar primary key,
+    name varchar
+);
+
+DROP TABLE IF EXISTS terms;
+CREATE TABLE terms (
+    term varchar,
+    lang_code varchar,
+    status integer NOT NULL,
+    user_id varchar,
+    FOREIGN KEY ("lang_code") REFERENCES languages("lang_code"),
+    FOREIGN KEY ("user_id") REFERENCES users("user_id")
+);
+
 COMMIT;

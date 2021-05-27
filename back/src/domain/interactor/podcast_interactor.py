@@ -1,4 +1,5 @@
 from src.lib.errors import NotFoundError, NotAuthorizedError
+import re
 
 
 class PodcastInteractor:
@@ -88,6 +89,47 @@ class PodcastInteractor:
     #     listened_eps_by_date = self._get_all_listened_episodes_by_user(
     #         current_user.id)
         # listened_podcasts_ids_by_date = self._get_all_listened_podcasts_by_user()
+
+    def get_terms_statuses_by_episode_id(self, episode_id):
+        self._validate_auth()
+        current_user = self.user_repository.get_current_user()
+        episode = self.get_episode_by_id(episode_id)
+        lang_code = self._get_episode_lang_code(episode_id)
+        unique_terms = set(self._split_text_in_terms(episode.transcript))
+        terms_statuses = {}
+        for term in unique_terms:
+            term_status = self.podcast_repository.get_term_status(
+                term, lang_code, current_user.id)
+            terms_statuses[term] = term_status if term_status else 0
+        return terms_statuses
+
+    def _get_episode_lang_code(self, episode_id):
+        podcast_id = self.podcast_repository.get_podcast_id_of(
+            episode_id)
+        podcast = self.podcast_repository.get_podcast_by_id(podcast_id)
+        return podcast.lang_code
+
+    def _split_text_in_terms(self, text):
+        raw_splitted_text = text.replace("\\n", " ").strip().split(" ")
+        splitted_text_no_marks = [
+            self._remove_standard_punctuation_marks(elem) for elem in raw_splitted_text
+        ]
+        splitted_text_no_cases = [elem.lower()
+                                  for elem in splitted_text_no_marks]
+        return splitted_text_no_cases
+
+    def _remove_standard_punctuation_marks(self, text):
+        end_marks = r"([\w|\d])([,?!;:.]+)"
+        pair_marks_left = r"([\(\[\{<]+)([\w\d\-_]+)"
+        pair_marks_right = r"([\w\d\-_]+)([\)\]\}>]+)"
+        text_without_end_marks = re.sub(end_marks, r"\1", text)
+        text_without_pair_marks_left = re.sub(
+            pair_marks_left, r"\2", text_without_end_marks
+        )
+        text_without_pair_marks_right = re.sub(
+            pair_marks_right, r"\1", text_without_pair_marks_left
+        )
+        return text_without_pair_marks_right
 
     def _get_all_listened_episodes_by_user(self, user_id):
         user_events = self.events_repository.get_events_by_user_id(
