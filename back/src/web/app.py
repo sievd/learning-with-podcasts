@@ -73,3 +73,9 @@ def podcast_by_id_get(id):
     podcast = podcast_interactor.get_podcast_by_id(id)
     podcast.image = f"/api/static/pictures/{podcast.image}"
     return json_response(podcast), 200
+
+
+@app.route("/api/podcasts/<id>/episodes", methods=["GET"])
+def podcast_episodes_by_id_get(id):
+    episodes = podcast_interactor.get_all_episodes_by_podcast_id(id)
+    return json_response(episodes), 200

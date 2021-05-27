@@ -26,6 +26,14 @@ CREATE TABLE podcasts_categories (
     image_filename varchar
 );
 
+DROP TABLE IF EXISTS authors;
+CREATE TABLE authors (
+    id varchar primary key,
+    name varchar,
+    bio varchar,
+    image_filename varchar
+);
+
 DROP TABLE IF EXISTS podcasts;
 CREATE TABLE podcasts (
     podcast_id varchar primary key,
@@ -40,8 +48,10 @@ DROP TABLE IF EXISTS podcasts_episodes;
 CREATE TABLE podcasts_episodes (
     episode_id varchar primary key,
     podcast_id varchar,
+    author_id varchar,
     release_date varchar,
-    FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id")
+    FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id"),
+    FOREIGN KEY ("author_id") REFERENCES authors("id")
 );
 
 DROP TABLE IF EXISTS user_libraries;

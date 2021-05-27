@@ -14,7 +14,7 @@ def test_should_return_an_empty_list_if_the_user_doesnt_have_saved_podcasts_yet(
         None, database, get_current_user_id=lambda: "user-1")
     podcast_interactor = PodcastInteractor(
         None, podcast_repository, events_repository, user_repository)
-    all_podcasts = podcast_interactor.get_user_library()
+    all_podcasts = podcast_interactor.get_all_podcast_in_the_library()
     assert all_podcasts == []
 
 
@@ -53,7 +53,7 @@ def test_should_return_the_user_library_if_the_user_have_saved_podcasts(database
         None, database, get_current_user_id=lambda: "user-1")
     podcast_interactor = PodcastInteractor(
         None, podcast_repository, events_repository, user_repository)
-    all_podcasts = podcast_interactor.get_user_library()
+    all_podcasts = podcast_interactor.get_all_podcast_in_the_library()
     assert all_podcasts[0].id == "test-podcast-1"
     assert all_podcasts[1].id == "test-podcast-3"
 
@@ -66,7 +66,7 @@ def test_should_return_NotAuthorizedError_if_the_user_is_not_logged_in(database)
     podcast_interactor = PodcastInteractor(
         None, podcast_repository, events_repository, user_repository)
     with pytest.raises(NotAuthorizedError) as exception:
-        podcast_interactor.get_user_library()
+        podcast_interactor.get_all_podcast_in_the_library()
     assert exception.value.data == {
         "msg": "This operation is not authorized. Please, log in."
     }

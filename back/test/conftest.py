@@ -14,7 +14,7 @@ def database():
         CREATE TABLE users (
             id varchar primary key,
             username varchar,
-            picture varchar,
+            image_filename varchar,
             name varchar,
             password varchar,
             is_admin boolean
@@ -27,12 +27,21 @@ def database():
             type varchar,
             data varchar
         );
-        
+
         DROP TABLE IF EXISTS podcasts_categories;
         CREATE TABLE podcasts_categories (
             category_id varchar primary key,
             name varchar,
-            description varchar
+            description varchar,
+            image_filename varchar
+        );
+
+        DROP TABLE IF EXISTS authors;
+        CREATE TABLE authors (
+            id varchar primary key,
+            name varchar,
+            bio varchar,
+            image_filename varchar
         );
 
         DROP TABLE IF EXISTS podcasts;
@@ -49,8 +58,10 @@ def database():
         CREATE TABLE podcasts_episodes (
             episode_id varchar primary key,
             podcast_id varchar,
+            author_id varchar,
             release_date varchar,
-            FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id")
+            FOREIGN KEY ("podcast_id") REFERENCES podcasts("podcast_id"),
+            FOREIGN KEY ("author_id") REFERENCES authors("id")
         );
 
         DROP TABLE IF EXISTS user_libraries;
@@ -61,7 +72,7 @@ def database():
             FOREIGN KEY ("user_id") REFERENCES users("user_id")
         );
 
-        INSERT INTO users (id, username, picture, name, password, is_admin) values 
+        INSERT INTO users (id, username, image_filename, name, password, is_admin) values 
             ("user-1", "user-1@example.com", "picture-1.jpg", "User 1", '{hash_password("user-1-password")}', 1),
             ("user-2", "user-2@example.com", "picture-2.jpg", "User 2", '{hash_password("user-2-password")}', 0),
             ("user-3", "user-3@example.com", "picture-3.jpg", "User 3", '{hash_password("user-3-password")}', 0),
