@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <Header></Header>
-    <Aside id="aside"></Aside>
+    <Header v-if="!isLoginPage"></Header>
+    <Aside id="aside" v-if="!isLoginPage"></Aside>
     <div id="main">
       <router-view />
     </div>
-    <Footer></Footer>
+    <Footer v-if="!isLoginPage"></Footer>
   </div>
 </template>
 
@@ -21,6 +21,11 @@ export default {
     Header,
     Aside,
     Footer,
+  },
+  computed: {
+    isLoginPage() {
+      return this.$route.path == "/login";
+    },
   },
 };
 </script>
@@ -40,9 +45,29 @@ export default {
     "aside footer";
 }
 
+#header {
+  grid-area: nav;
+}
+
 #aside {
   grid-area: aside;
   justify-self: left;
   position: sticky;
+  top: 0;
+}
+
+#main {
+  grid-area: view;
+  padding: 1rem 2rem;
+  height: 100%;
+}
+
+#main > * {
+  max-width: 100%;
+  height: 100%;
+}
+
+#footer {
+  grid-area: footer;
 }
 </style>

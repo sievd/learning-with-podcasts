@@ -5,20 +5,28 @@ html {
 body {
   padding: 0;
   margin: 0;
-  background-color: #060606;
+  background: linear-gradient(180deg, #050505 -16.52%, #16161b 107.81%), #16161b;
   color: #e8e9e9;
   font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
   line-height: 150%;
 }
 
 #app {
-  height: 100vh;
+  min-height: 100vh;
   margin: auto;
   display: flex;
   flex-direction: column;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.material-icons {
+  cursor: default;
+}
+
+.material-icons.md-3 {
+  font-size: calc(3px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
 }
 
 .material-icons.md-8 {
@@ -45,4 +53,12 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
 }
