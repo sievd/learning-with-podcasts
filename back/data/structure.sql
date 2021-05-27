@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id varchar primary key,
     username varchar,
-    picture varchar,
+    image_filename varchar,
     name varchar,
     password varchar,
     is_admin boolean
@@ -22,7 +22,8 @@ DROP TABLE IF EXISTS podcasts_categories;
 CREATE TABLE podcasts_categories (
     category_id varchar primary key,
     name varchar,
-    description varchar
+    description varchar,
+    image_filename varchar
 );
 
 DROP TABLE IF EXISTS podcasts;
