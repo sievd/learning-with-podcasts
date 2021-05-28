@@ -30,6 +30,10 @@ const api = {
     return await this.get(`/api/users/${userId}/podcasts`);
   },
 
+  async getAuthorsByUserLibrary(userId) {
+    return await this.get(`/api/users/${userId}/authors`);
+  },
+
   async getPodcastById(id) {
     return await this.get(`/api/podcasts/${id}`);
   },

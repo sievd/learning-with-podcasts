@@ -69,7 +69,7 @@ def user_podcasts_get(user_id):
 
 
 @app.route("/api/users/<user_id>/authors", methods=["GET"])
-def user_podcasts_get(user_id):
+def user_authors_get(user_id):
     all_authors = podcast_interactor.get_all_authors_in_the_library()
     for author in all_authors:
         author.image = f"/api/static/pictures/{author.image}"

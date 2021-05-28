@@ -8,6 +8,10 @@ export const routes = [
     component: () => import("@/views/Explore/ExplorePage.vue"),
   },
   {
+    path: "/recent",
+    component: () => import("@/views/RecentlyPlayed/RecentlyPlayedPage.vue"),
+  },
+  {
     path: "/library",
     component: () => import("@/views/Library/LibraryPage.vue"),
   },

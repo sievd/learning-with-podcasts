@@ -28,7 +28,10 @@
         <li>
           <span class="material-icons md-8">explore</span><span>For You</span>
         </li>
-        <li>
+        <li
+          @click="onRecentlyPlayedLinkClicked"
+          :class="[active == 'Recent' ? 'active' : '']"
+        >
           <span class="material-icons md-8">cached</span><span>Recent</span>
         </li>
         <li>
@@ -101,6 +104,9 @@ export default {
     },
     onExploreLinkClicked() {
       this.$router.push("/explore");
+    },
+    onRecentlyPlayedLinkClicked() {
+      this.$router.push("/recent");
     },
     onLibraryPodcastsLinkClicked() {
       this.$router.push("/library/podcasts");

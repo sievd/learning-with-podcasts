@@ -26,7 +26,7 @@ export default {
   props: {
     items: { type: Array, required: true },
     baseLink: { type: String, required: true },
-    viewMoreLink: { type: String, required: true },
+    viewMoreLink: { type: String, required: false },
     maxItems: { type: Number, required: true },
   },
 };
