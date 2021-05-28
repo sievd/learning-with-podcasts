@@ -13,14 +13,16 @@
           <span class="material-icons md-8">favorite</span>
         </td>
         <td class="title">
-          {{ episode.title }}
+          <router-link :to="`${$route.path}/${episode.episode_id}`">{{
+            episode.title
+          }}</router-link>
         </td>
         <td>
-          {{ episode.author }}
+          {{ episode.author_id }}
         </td>
         <td>
           {{
-            new Date(episode.release_date).toLocaleString("es-ES", {
+            new Date(episode.release_date).toLocaleString("en-US", {
               dateStyle: "medium",
             })
           }}
@@ -44,13 +46,7 @@ export default {
 
 <style scoped>
 .container {
-  /* box-shadow: 2px 2px 2px 2px #ccc; */
-  /* display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; */
   font-size: 0.8em;
-  /* padding: 1.5em; */
 }
 
 table {

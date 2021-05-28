@@ -28,6 +28,10 @@ export const routes = [
     component: () => import("@/views/PodcastDetails/PodcastDetailsPage.vue"),
   },
   {
+    path: "/podcasts/:podcastId/:episodeId",
+    component: () => import("@/views/EpisodeDetails/EpisodeDetailsPage.vue"),
+  },
+  {
     path: "/login",
     component: () => import("@/views/Login/LoginPage.vue"),
   },

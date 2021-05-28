@@ -37,6 +37,14 @@ const api = {
   async getEpisodesByPodcastId(id) {
     return await this.get(`/api/podcasts/${id}/episodes`);
   },
+
+  async getEpisodeById(id) {
+    return await this.get(`/api/episodes/${id}`);
+  },
+
+  async getWordStatusesByEpisodeId(id) {
+    return await this.get(`/api/episodes/${id}/statuses`);
+  },
 };
 
 export default api;
