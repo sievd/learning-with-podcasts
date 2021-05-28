@@ -49,6 +49,13 @@ const api = {
   async getWordStatusesByEpisodeId(id) {
     return await this.get(`/api/episodes/${id}/statuses`);
   },
+
+  async setTermStatus(userId, term, langCode, status) {
+    return await this.post(
+      `/api/users/${userId}/terms/${langCode}/${term}/update`,
+      status
+    );
+  },
 };
 
 export default api;

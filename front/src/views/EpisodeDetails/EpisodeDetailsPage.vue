@@ -11,8 +11,16 @@
         class="text-component"
         :transcript="episode.transcript"
         :statuses="statuses"
+        :key="JSON.stringify(statuses, null, 2)"
         @word-clicked="onWordClicked"
       ></Transcript>
+    </section>
+    <section class="status-control">
+      <StatusControl
+        :currentWord="currentWord"
+        :currentStatus="currentStatus"
+        @status-clicked="onStatusButtonClicked"
+      ></StatusControl>
     </section>
     <section class="iframe-wrapper">
       <iframe
@@ -28,16 +36,18 @@
 <script>
 import api from "@/services/api";
 import Transcript from "./Transcript.vue";
+import StatusControl from "./StatusControl.vue";
 
 export default {
   name: "EpisodeDetails",
-  components: { Transcript },
+  components: { Transcript, StatusControl },
   data() {
     return {
       episode: null,
       podcast: null,
       statuses: {},
       currentWord: "",
+      currentStatus: 0,
     };
   },
   computed: {
@@ -52,9 +62,21 @@ export default {
     },
   },
   methods: {
-    onWordClicked(currentWord, status) {
+    onWordClicked(currentWord, currentStatus) {
       this.currentWord = currentWord;
+      this.currentStatus = currentStatus;
       console.log(status);
+    },
+    async onStatusButtonClicked(newStatus) {
+      const userId = this.$route.params.id;
+      this.currentStatus = newStatus;
+      this.statuses[this.currentWord] = newStatus;
+      await api.setTermStatus(
+        userId,
+        this.currentWord,
+        this.langCode,
+        newStatus
+      );
     },
   },
   async created() {
@@ -90,15 +112,23 @@ export default {
 
 .iframe-wrapper {
   position: fixed;
-  top: 5.2rem;
+  top: 9.2rem;
   right: 2rem;
   padding-bottom: 100%;
   overflow: hidden;
   border-radius: 5px;
 }
 
+.status-control {
+  position: fixed;
+  top: 5.2rem;
+  right: 2rem;
+  height: 5vh;
+  width: 75vh;
+}
+
 .iframe {
-  height: 80vh;
+  height: 70vh;
   width: 75vh;
   /* position: absolute; */
   /* top: 0;

@@ -1,13 +1,22 @@
 <template>
-  <ul>
-    <li :class="[active == 'playlists' ? 'active' : '']">
-      <router-link to="/library/playlists">Playlists</router-link>
+  <ul v-if="active">
+    <li
+      :class="[active == 'playlists' ? 'active' : '']"
+      @click="onTabClicked('playlists')"
+    >
+      Playlists
     </li>
-    <li :class="[active == 'podcasts' ? 'active' : '']">
-      <router-link to="/library/podcasts">Podcasts</router-link>
+    <li
+      :class="[active == 'podcasts' ? 'active' : '']"
+      @click="onTabClicked('podcasts')"
+    >
+      Podcasts
     </li>
-    <li :class="[active == 'authors' ? 'active' : '']">
-      <router-link to="/library/authors">Authors</router-link>
+    <li
+      :class="[active == 'authors' ? 'active' : '']"
+      @click="onTabClicked('authors')"
+    >
+      Authors
     </li>
   </ul>
 </template>
@@ -15,16 +24,12 @@
 <script>
 export default {
   name: "LibrarySubmenu",
-  computed: {
-    active() {
-      const path = this.$route.path;
-      if (path.includes("podcasts")) {
-        return "podcasts";
-      } else if (path.includes("authors")) {
-        return "authors";
-      } else {
-        return "playlists";
-      }
+  props: {
+    active: { type: String, required: true },
+  },
+  methods: {
+    onTabClicked(name) {
+      this.$emit("tab-clicked", name);
     },
   },
 };
