@@ -54,6 +54,7 @@ def test_should_return_the_user_library_if_the_user_have_saved_podcasts(database
     podcast_interactor = PodcastInteractor(
         None, podcast_repository, events_repository, user_repository)
     all_podcasts = podcast_interactor.get_all_podcast_in_the_library()
+    assert len(all_podcasts) == 2
     assert all_podcasts[0].id == "test-podcast-1"
     assert all_podcasts[1].id == "test-podcast-3"
 

@@ -64,9 +64,16 @@ def user_podcasts_get(user_id):
     else:
         all_podcasts = podcast_interactor.get_all_podcast_in_the_library()
     for podcast in all_podcasts:
-        print(podcast)
         podcast.image = f"/api/static/pictures/{podcast.image}"
     return json_response(all_podcasts), 200
+
+
+@app.route("/api/users/<user_id>/authors", methods=["GET"])
+def user_podcasts_get(user_id):
+    all_authors = podcast_interactor.get_all_authors_in_the_library()
+    for author in all_authors:
+        author.image = f"/api/static/pictures/{author.image}"
+    return json_response(all_authors), 200
 
 
 @app.route("/api/podcasts", methods=["GET"])

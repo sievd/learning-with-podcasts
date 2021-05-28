@@ -72,6 +72,13 @@ class PodcastInteractor:
             current_user.id)
         return user_library
 
+    def get_all_authors_in_the_library(self):
+        self._validate_auth()
+        current_user = self.user_repository.get_current_user()
+        user_library = self.podcast_repository.get_library_authors_by_user_id(
+            current_user.id)
+        return user_library
+
     def get_latests_listened_podcasts_in_the_library(self):
         self._validate_auth()
         current_user = self.user_repository.get_current_user()

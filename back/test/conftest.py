@@ -10,7 +10,7 @@ def database():
     conn = sqlite3.connect(":memory:")
     conn.executescript(
         f"""
-        DROP TABLE IF EXISTS users;
+       DROP TABLE IF EXISTS users;
         CREATE TABLE users (
             id varchar primary key,
             username varchar,
@@ -47,11 +47,13 @@ def database():
         DROP TABLE IF EXISTS podcasts;
         CREATE TABLE podcasts (
             podcast_id varchar primary key,
+            author_id varchar,
             image_filename varchar,
             title varchar, 
             description varchar,
             category_id varchar,
             lang_code varchar,
+            FOREIGN KEY ("author_id") REFERENCES authors("id"),
             FOREIGN KEY ("category_id") REFERENCES podcasts_categories("category_id"),
             FOREIGN KEY ("lang_code") REFERENCES languages("lang_code")
         );
