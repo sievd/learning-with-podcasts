@@ -13,7 +13,7 @@
         :items="latestPodcasts"
         :maxItems="maxItems"
         baseLink="/podcasts"
-        viewMoreLink="/"
+        @view-more-clicked="onViewMoreButtonClicked('recent')"
       ></CardsSummaryGrid>
     </section>
     <section>
@@ -22,7 +22,7 @@
         :items="recommendedPodcasts"
         :maxItems="maxItems"
         baseLink="/podcasts"
-        viewMoreLink="/"
+        @view-more-clicked="onViewMoreButtonClicked('recommended')"
       ></CardsSummaryGrid>
     </section>
     <section>
@@ -70,6 +70,11 @@ export default {
       const userId = this.$auth.user.id;
       this.newEpisodes = await api.getNewEpisodesByUserLibrary(userId);
     },
+    onViewMoreButtonClicked(section) {
+      if (section == "recent") {
+        this.$router.push("/recent");
+      }
+    }
   },
   async created() {
     if (!this.$auth.isUserLogged) {

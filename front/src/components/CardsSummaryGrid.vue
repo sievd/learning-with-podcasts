@@ -9,7 +9,7 @@
       ></Card>
     </div>
     <div class="view-more-wrapper" v-if="maxItems < items.length">
-      <div class="view-more">
+      <div class="view-more" @click="onViewMoreButtonClicked">
         <span>View more</span
         ><span class="material-icons md-3">double_arrow</span>
       </div>
@@ -26,8 +26,12 @@ export default {
   props: {
     items: { type: Array, required: true },
     baseLink: { type: String, required: true },
-    viewMoreLink: { type: String, required: false },
     maxItems: { type: Number, required: true },
+  },
+  methods: {
+    onViewMoreButtonClicked() {
+      this.$emit("view-more-clicked");
+    },
   },
 };
 </script>

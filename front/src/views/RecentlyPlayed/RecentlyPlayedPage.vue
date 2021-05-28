@@ -1,6 +1,8 @@
 <template>
   <div>
-    <p>Recently Played</p>
+    <ul>
+      <li>Recently Played</li>
+    </ul>
     <CardsSummaryGrid
       :items="latestPodcasts"
       :maxItems="maxItems"
@@ -36,8 +38,9 @@ export default {
 };
 </script>
 
-<style>
-p {
+<style scoped>
+li {
   font-size: 0.75em;
+  margin-bottom: 1em;
 }
 </style>
